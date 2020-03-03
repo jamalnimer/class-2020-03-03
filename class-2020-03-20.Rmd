@@ -1,0 +1,41 @@
+---
+title: "class-2020-03-20"
+author: "Jamal Nimer"
+date: "3/3/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(googlesheets4)
+library(fs)
+library(janitor)
+library(tidyverse)
+```
+
+```{r}
+
+sheet_id <- '14HmwN2cEVAJHupuehCuLdwG9BXtR3COrxDgaaylLhkA'
+
+sheets_deauth()
+x<- read_sheet(ss=sheet_id)
+
+samp_distr <- x %>% 
+  clean_names() %>% 
+  select(1:4) %>% 
+  slice(1:51)
+
+samp_distr %>% 
+  arrange(desc(red)) %>% 
+  head(1) %>% 
+  pull(partners)
+
+ggplot(samp_distr, aes(red)) + 
+  geom_histogram(bins = 25, binwidth = 0.9) 
+  
+ggplot(samp_distr, aes(percent_red)) + 
+  geom_histogram(bins = 20)
+
+```
+
+
